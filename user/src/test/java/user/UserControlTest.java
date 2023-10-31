@@ -31,7 +31,7 @@ public class UserControlTest {
 
 	@Test
     public void testRegisterNewUser() throws Exception {
-        // Create a User object for registration
+        
         Users user = new Users();
         user.setFirstName("John");
         user.setLastName("Doe");
