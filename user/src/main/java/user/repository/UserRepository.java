@@ -10,7 +10,7 @@ import user.model.Users;
 public interface UserRepository extends JpaRepository<Users, Integer>{
 	
 	public Users findByEmail(String email);
-	@Query("SELECT u from Users u where u.username = :username")
+	
 	Optional<Users> findUserByUsername(String username);
 
 }
