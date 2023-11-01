@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import user.controller.UserRegistrationRequest;
 import user.model.Users;
 
 @SpringBootTest
@@ -32,14 +33,15 @@ public class UserControlTest {
 	@Test
     public void testRegisterNewUser() throws Exception {
         
-        Users user = new Users();
-        user.setFirstName("John");
-        user.setLastName("Doe");
+       /* Users user = new Users();
         user.setPassword("mySecurePassword");
         user.setUsername("dasda");
         user.setEmail("dasdad@gmaid");
+        user.setFirstName("draskoo");
+        user.setLastName("P");*/
+		UserRegistrationRequest request = new UserRegistrationRequest("drasko", "petrovic", "d@gmail.com", "dk", "11pd");
 
-        String newUserJson = objectMapper.writeValueAsString(user);
+        String newUserJson = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/users/register")
