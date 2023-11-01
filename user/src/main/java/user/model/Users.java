@@ -26,8 +26,11 @@ public class Users {
 	private String username;
 	@NotBlank(message = "Password cannot be empty!")
 	private String password;
+	@NotBlank(message = "Name cannot be empty!")
 	private String firstName;
+	@NotBlank(message = "Lastname cannot be empty!")
 	private String lastName;
+	@NotBlank(message = "Email cannot be empty!")
 	private String email;
 
 }
