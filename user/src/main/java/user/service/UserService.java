@@ -15,15 +15,15 @@ import user.repository.UserRepository;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-	
+
 	private final UserRepository userRepository;
 
 	public void registerUser(UserRegistrationRequest registration) {
-		Users user = Users.builder().firstName(registration.firstname())
-				.lastName(registration.lastname()).email(registration.email()).username(registration.username()).build();
+		Users user = Users.builder().firstName(registration.firstname()).lastName(registration.lastname())
+				.email(registration.email()).username(registration.username()).build();
 		user.setPassword(new BCryptPasswordEncoder().encode(registration.password()));
 		Users userCheck = userRepository.findByEmail(user.getEmail());
-		if(userCheck == null) {
+		if (userCheck == null) {
 			userRepository.save(user);
 		} else {
 			throw new IllegalArgumentException("Already registered");
