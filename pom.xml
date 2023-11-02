@@ -40,5 +40,6 @@
 	</dependencies>
   <modules>
   	<module>user</module>
+  	<module>inventory</module>
   </modules>
 </project>
