@@ -28,6 +28,16 @@ services:
       networks:
       - postgres
       restart: unless-stopped
+   
+   keycloak:
+      container_name: keycloak
+      image: quay.io/keycloak/keycloak:latest
+      command: start-dev
+      ports:
+      - 8100:8080
+      environment:
+         KEYCLOAK_ADMIN: drasko
+         KEYCLOAK_ADMIN_PASSWORD: drasko
 
 networks:
    postgres:
