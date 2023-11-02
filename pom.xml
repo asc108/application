@@ -41,5 +41,6 @@
   <modules>
   	<module>user</module>
   	<module>inventory</module>
+  	<module>product</module>
   </modules>
 </project>
