@@ -2,10 +2,10 @@ server:
    port: 8081
 spring:
    application:
-      name: user
+      name: product
    datasource:
       password: password
-      url: jdbc:postgresql://localhost:5432/product
+      url: "jdbc:postgresql://localhost:5432/product"
       username: drasko
    jpa:
       hibernate:
@@ -15,3 +15,7 @@ spring:
             dialect: org.hibernate.dialect.PostgreSQLDialect
             format_sql: true
       show-sql: true
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: "http://localhost:8761/eureka/"
