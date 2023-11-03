@@ -43,5 +43,6 @@
   	<module>inventory</module>
   	<module>product</module>
   	<module>eureka-server</module>
+  	<module>order</module>
   </modules>
 </project>
