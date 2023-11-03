@@ -35,7 +35,7 @@ public class UserController {
 		return userService.getAllUsers();
 	}
 	
-	@DeleteMapping("/{username")
+	@DeleteMapping("/{username}")
 	public ResponseEntity<String> removeUser(@PathVariable String username) {
 		try {
 			userService.removeUser(username);
