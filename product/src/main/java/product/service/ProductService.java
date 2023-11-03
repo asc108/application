@@ -26,10 +26,13 @@ public class ProductService {
 	public void addProduct(ProductRequest request) {
 		Product product = Product.builder().name(request.name()).description(request.description())
 				.price(request.price()).build();
-
+		if(productRepository.findByName(request.name()).isEmpty()) { 
 		productRepository.save(product);
 		Inventory inventory = Inventory.builder().product(product).skucode(new RandomStringUtils().randomAlphabetic(5)).quantity(new Random().nextInt(100)).build();
 		inventoryRepository.save(inventory);
+		} else {
+			throw new IllegalArgumentException("Already exists");
+		}
 	}
 
 	public List<Product> allProducts() {
