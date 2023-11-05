@@ -44,5 +44,6 @@
   	<module>product</module>
   	<module>eureka-server</module>
   	<module>order</module>
+  	<module>feignclients</module>
   </modules>
 </project>
