@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
+import feignclients.product.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import product.controller.ProductRequest;
@@ -53,6 +54,11 @@ public class ProductService {
 		} else {
 			throw new IllegalArgumentException("Not found product with that id");
 		}
+		
+	}
+
+	public boolean checkIfPresent(String name) {
+		return productRepository.findByName(name).isPresent();
 		
 	}
 
