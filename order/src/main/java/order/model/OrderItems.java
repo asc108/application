@@ -12,16 +12,17 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "t_orderItems")
+@Table(name = "t_orderitems")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderItems {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private String id;
-
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String name;
 	private Integer quantity;
+	// @ManyToOne
+	// @JoinColumn(name = "order_id")
 
 }
