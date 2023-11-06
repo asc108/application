@@ -34,9 +34,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
-
 		</dependency>
-
 	</dependencies>
   <modules>
   	<module>user</module>
@@ -45,5 +43,8 @@
   	<module>eureka-server</module>
   	<module>order</module>
   	<module>feignclients</module>
+  	<module>api-gateway</module>
+  	<module>ampqp</module>
+  	<module>notification</module>
   </modules>
 </project>
