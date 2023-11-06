@@ -63,7 +63,7 @@ public class ProductController {
 		}
 	}
 	@GetMapping("/stock")
-	public List<InventoryResponse> isInStock(@RequestParam List<String> name) {
+	public List<InventoryResponse> isInStock(@RequestParam("name") List<String> name) {
 		return productService.isInStock(name);
 		
 	}
