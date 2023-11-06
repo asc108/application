@@ -12,6 +12,16 @@ spring:
           uri: lb://USER
           predicates:
             - Path=/api/users/**
+        
+        - id: product
+          uri: lb://PRODUCT
+          predicates:
+            - Path=/api/product/**
+        - id: order
+          uri: lb://ORDER
+          predicates:
+            - Path=/api/order/**
+        
 ---
 # Eureka Client configuration
 eureka:
