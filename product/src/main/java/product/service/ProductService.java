@@ -67,7 +67,7 @@ public class ProductService {
 		List<InventoryResponse> result = new ArrayList<>();
 		for (String name : names) {
 			boolean isInStock = stock(name);
-			result.add(new InventoryResponse(name,true));
+			result.add(new InventoryResponse(name, true));
 
 		}
 		return result;
@@ -83,18 +83,12 @@ public class ProductService {
 
 	}
 
-
-	public void stockUpdate(String name ,Integer quantity) {
+	public void stockUpdate(String name, Integer quantity) {
 		Product product = productByName(name);
-		int update = product.getInventory().getQuantity()-quantity;
+		int update = product.getInventory().getQuantity() - quantity;
 		product.getInventory().setQuantity(update);
 		productRepository.save(product);
-		
-		
-		
-		
-	}
 
-	
+	}
 
 }

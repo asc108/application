@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import feignclients.product.InventoryClient;
 import feignclients.product.InventoryResponse;
-import feignclients.product.ProductClient;
-import feignclients.product.ProductResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import order.controller.OrderItemsDTO;
@@ -40,8 +38,9 @@ public class OrderService {
 		boolean allInStock = stockCheck.stream().allMatch(InventoryResponse::isInStock);
 		if(allInStock == true) {
 			orderRepository.save(order);
-			
-			
+			orderItems.forEach(item -> {
+				inventoryClient.stockUpdate(item.getName(), item.getQuantity());
+			});
 			return true;
 		} else {
 			throw new IllegalArgumentException("Product is not in stock currently,please try again soon!");

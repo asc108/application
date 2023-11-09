@@ -16,11 +16,5 @@ public interface InventoryClient {
 	
 
 	@PutMapping("api/product/update")
-	public void stockUpdate(@RequestParam String name,@RequestParam Integer quantiy);
-	
-	@GetMapping("/{name}")
-	public ProductResponse productByName(@PathVariable String name);
-		
-	
-
+	public void stockUpdate(@RequestParam ("name") String name,@RequestParam("quantity") Integer quantity);
 }
