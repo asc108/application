@@ -47,7 +47,7 @@ public class ProductService {
 		return productRepository.findByName(name).get();
 	}
 
-	public void removeUser(Integer id) {
+	public void removeProduct(Integer id) {
 		Product product = productRepository.findById(id).get();
 		if (product != null) {
 			log.info("found");
@@ -82,5 +82,19 @@ public class ProductService {
 		return false;
 
 	}
+
+
+	public void stockUpdate(String name ,Integer quantity) {
+		Product product = productByName(name);
+		int update = product.getInventory().getQuantity()-quantity;
+		product.getInventory().setQuantity(update);
+		productRepository.save(product);
+		
+		
+		
+		
+	}
+
+	
 
 }

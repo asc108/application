@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import feignclients.product.InventoryClient;
 import feignclients.product.InventoryResponse;
 import feignclients.product.ProductClient;
+import feignclients.product.ProductResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import order.controller.OrderItemsDTO;
@@ -32,19 +33,14 @@ public class OrderService {
 		order.setOrderItems(orderItems);
 
 		List<String> names = order.getOrderItems().stream().map(OrderItems::getName).toList();
+				
 		
-		
-	/*	for (String str : names) {
-			ProductResponse check = productClient.checkIfPresent(str);
-			if (!check.isPresent()) {
-				throw new IllegalStateException();
-			}
-		}*/ 
 		
 		List<InventoryResponse> stockCheck = inventoryClient.isInStock(names);
 		boolean allInStock = stockCheck.stream().allMatch(InventoryResponse::isInStock);
 		if(allInStock == true) {
 			orderRepository.save(order);
+			
 			
 			return true;
 		} else {
