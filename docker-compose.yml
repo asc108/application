@@ -6,6 +6,7 @@ services:
          POSTGRES_USER: drasko
          POSTGRES_PASSWORD: password
          PGDATA: /data/postgres
+         POSTGRES_DB: pdb
       volumes:
       - postgres:/data/postgres
       ports:
@@ -38,12 +39,19 @@ services:
    keycloak:
       container_name: keycloak
       image: quay.io/keycloak/keycloak:latest
-      command: start-dev
+      command: 
+      - start-dev
       ports:
       - 8100:8080
       environment:
          KEYCLOAK_ADMIN: drasko
          KEYCLOAK_ADMIN_PASSWORD: drasko
+         KC_DB: postgres
+         KC_DB_URL: jdbc:postgresql://postgres/kc
+         KC_DB_USERNAME: drasko
+         KC_DB_PASSWORD: password
+      networks:
+      - postgres
 
 networks:
    postgres:
