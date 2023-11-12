@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import ampqp.RabbitMQMessageProducer;
 import feignclients.notification.NotificationRequest;
+import feignclients.user.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import user.controller.UserRegistrationRequest;
@@ -23,7 +24,7 @@ import user.repository.UserRepository;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService implements UserDetailsService {
+public class UserService  {
 
 	private final UserRepository userRepository;
 	private final RabbitMQMessageProducer r;
@@ -63,21 +64,19 @@ public class UserService implements UserDetailsService {
 
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Users user = userRepository.findUserByUsername(username).get();
-		if(user == null) {
-			throw new UsernameNotFoundException("User with username :" + username + "not found");
-		}
-		return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
-		}
+	
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	public UserResponse findUser(String username) {
+		Users user = userRepository.findUserByUsername(username).get();
+		UserResponse response = new UserResponse(user.getUsername(), user.getPassword(), user.getFirstName(),
+				user.getLastName(), user.getRole());
+		return response;
+
 	}
 
 }

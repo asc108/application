@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import feignclients.user.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import user.model.Users;
@@ -36,7 +38,7 @@ public class UserController {
 
 		return userService.getAllUsers();
 	}
-	
+
 	@DeleteMapping("/{username}")
 	public ResponseEntity<String> removeUser(@PathVariable String username) {
 		try {
@@ -45,10 +47,13 @@ public class UserController {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		
-		
+
 	}
-	
-	
+
+	@GetMapping("/user")
+	public UserResponse findUser(@RequestParam("username") String username) {
+		UserResponse response = userService.findUser(username);
+		return response;
+	}
 
 }

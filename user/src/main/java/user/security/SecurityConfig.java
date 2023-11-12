@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -17,21 +18,24 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableMethodSecurity( prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-	private final UserDetailsService userDetailsService;
-	private final PasswordEncoder passwordEncoder;
-	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(e -> e.disable()).authorizeHttpRequests(e ->  {e.requestMatchers("/api/users/register").permitAll();
-		e.anyRequest().authenticated();
+		http.csrf(e -> e.disable()).authorizeHttpRequests(e -> {
+			e.requestMatchers("/api/users/register").permitAll();
+			e.anyRequest().authenticated();
 		}).httpBasic(Customizer.withDefaults());
 		return http.build();
-		
+
 	}
+
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-	     return authenticationConfiguration.getAuthenticationManager();
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
 	}
+
+	
+	
 }
