@@ -6,8 +6,17 @@ import java.util.Random;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import feignclients.product.InventoryResponse;
+import feignclients.user.UserClient;
+import feignclients.user.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import product.controller.ProductRequest;
@@ -19,10 +28,11 @@ import product.repository.ProductRepository;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class ProductService {
+public class ProductService implements UserDetailsService {
 
 	private final ProductRepository productRepository;
 	private final InventoryRepository inventoryRepository;
+	private final UserClient userClient;
 
 	public void addProduct(ProductRequest request) {
 		Product product = Product.builder().name(request.name()).description(request.description())
@@ -36,7 +46,7 @@ public class ProductService {
 			throw new IllegalArgumentException("Already exists");
 		}
 	}
-
+	
 	public List<Product> allProducts() {
 		List<Product> products = productRepository.findAll();
 		return products;
@@ -90,5 +100,19 @@ public class ProductService {
 		productRepository.save(product);
 
 	}
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserResponse response = userClient.findUser(username);
+		if (response == null) {
+			throw new UsernameNotFoundException("User with username :" + username + "not found");
+		}
+		return new org.springframework.security.core.userdetails.User(response.username(), response.password(),
+				List.of(new SimpleGrantedAuthority("ROLE_" + response.roles())));
+	}
+	
+
+
+	
+	
 
 }
