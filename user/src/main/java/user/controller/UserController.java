@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.qos.logback.core.status.Status;
 import feignclients.user.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +29,19 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping("/register")
-	public void registerUser(@Valid @RequestBody UserRegistrationRequest registration) {
-		userService.registerUser(registration);
+	public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationRequest registration) {
+		try {
+			userService.registerUser(registration);
+			return ResponseEntity.status(HttpStatus.CREATED).body("Created");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Already registered");
+		}
+
 	}
 
 	@GetMapping("/allUsers")
 	@PreAuthorize("hasRole('USER')")
 	public List<Users> getAllUsers() {
-
 		return userService.getAllUsers();
 	}
 
