@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,19 +31,16 @@ public class ProductController {
 	public ResponseEntity<String> addProduct(@RequestBody ProductRequest request) {
 		try {
 			productService.addProduct(request);
-			return ResponseEntity.ok("Product added!");
+			return ResponseEntity.status(HttpStatus.CREATED).body("Added");
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
 	}
-
 	@GetMapping("/all")
-	@PreAuthorize("hasRole('USER')")
 	public List<Product> allProducts() {
 		return productService.allProducts();
 	}
-
 	@GetMapping("/{name}")
 	public Product productByName(@PathVariable String name) {
 		return productService.productByName(name);
@@ -55,7 +51,6 @@ public class ProductController {
 		boolean isPresent = productService.checkIfPresent(product);
 		return new ProductResponse(isPresent);
 	}
-
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> removeProduct(@PathVariable Integer id) {
 		try {
@@ -71,8 +66,13 @@ public class ProductController {
 		}
 	
 	@PutMapping("/update")
-	public void stockUpdate(@RequestParam ("name") String name,@RequestParam("quantity") Integer quantity) {
-		productService.stockUpdate(name,quantity);
+	public ResponseEntity<String> stockUpdate(@RequestParam ("name") String name,@RequestParam("quantity") Integer quantity) {
+		try {
+			productService.stockUpdate(name,quantity);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successful");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request");
+		}
 	}
 
 }
