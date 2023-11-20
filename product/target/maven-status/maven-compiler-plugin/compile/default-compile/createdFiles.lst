@@ -1,0 +1,10 @@
+product\controller\ProductController.class
+product\model\Inventory.class
+product\model\Product.class
+product\ProductApplication.class
+product\repository\ProductRepository.class
+product\model\Inventory$InventoryBuilder.class
+product\model\Product$ProductBuilder.class
+product\repository\InventoryRepository.class
+product\service\ProductService.class
+product\controller\ProductRequest.class

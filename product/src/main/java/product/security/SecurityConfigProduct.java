@@ -1,4 +1,4 @@
-package product.security;
+/*package product.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +20,10 @@ public class SecurityConfigProduct {
 		return http.build();
 		
 	}
-	/*@Bean
+	
+	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 	     return authenticationConfiguration.getAuthenticationManager();
-	}*/
-}
+	}
+	
+}*/
