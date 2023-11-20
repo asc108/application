@@ -21,7 +21,7 @@ services:
       environment:
          PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
          PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-         PGADMIN_CONFIG_SERVER_MODE: "False"
+         PGADMIN_CONFIG_SERVER_MODE: False
       volumes:
       - pgadmin:/var/lib/pgadmin
       ports:
@@ -35,31 +35,91 @@ services:
       ports:
       - 5672:5672
       - 15672:15672
-   
+
    keycloak:
-      container_name: keycloak
-      image: quay.io/keycloak/keycloak:latest
-      command: 
+      command:
       - start-dev
+   eureka-server:
+      image: asc108/eureka-server:latest
+      container_name: eureka-server
       ports:
-      - 8100:8080
+      - 8761:8761
       environment:
-         KEYCLOAK_ADMIN: drasko
-         KEYCLOAK_ADMIN_PASSWORD: drasko
-         KC_DB: postgres
-         KC_DB_URL: jdbc:postgresql://postgres/kc
-         KC_DB_USERNAME: drasko
-         KC_DB_PASSWORD: password
+      - SPRING_PROFILES_ACTIVE=docker
       networks:
+      - spring
+   api-geteway:
+      image: asc108/api-gateway:latest
+      container_name: api-geteway
+      ports:
+      - 8084:8084
+      environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      networks:
+      - spring
+      depends_on:
+      - eureka-server
+   notification:
+      image: asc108/notification:latest
+      container_name: notification
+      ports:
+      - 8083:8083
+      environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      networks:
+      - spring
+      - postgres
+      depends_on:
+      - eureka-server
+      - postgres
+      - rabbitmq
+   order:
+      image:  asc108/order:latest
+      container_name: order
+      ports:
+      - 8082:8082
+      environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      networks:
+      - spring
+      - postgres
+      depends_on:
+      - eureka-server
+      - postgres
+      - rabbitmq
+   product:
+      image: asc108/product:latest
+      container_name: product
+      ports:
+      - 8081:8081
+      environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      networks:
+      - spring
+      - postgres
+      depends_on:
+      - eureka-server
       - postgres
 
+   user:
+      image: asc108/user:latest
+      container_name: user
+      ports:
+      - 8080:8080
+      environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      networks:
+      - spring
+      - postgres
+      depends_on:
+      - eureka-server
+      - postgres
+      - rabbitmq
 networks:
    postgres:
       driver: bridge
    spring:
       driver: bridge
-
-
 volumes:
    postgres: null
    pgadmin: null
