@@ -1,0 +1,8 @@
+feignclients\product\ProductClient.class
+feignclients\user\UserClient.class
+feignclients\product\InventoryResponse.class
+feignclients\user\UserResponse.class
+feignclients\notification\NotificationRequest.class
+feignclients\product\InventoryClient.class
+feignclients\notification\NotificationClient.class
+feignclients\product\ProductResponse.class
