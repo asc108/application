@@ -1,0 +1,9 @@
+notification\controller\NotificationController.class
+notification\configuration\NotificationConfig.class
+notification\rabbitmq\NotificationConsumer.class
+notification\model\Notification.class
+notification\NotificationApplication.class
+notification\model\Notification$NotificationBuilder.class
+notification\repository\NotificationRepository.class
+notification\model\OrderNotification.class
+notification\service\NotificationService.class
