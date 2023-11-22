@@ -1,10 +1,10 @@
 user\controller\UserRegistrationRequest.class
-user\security\SecurityUser.class
 user\UserApplication.class
 user\model\Users.class
 user\service\JPAUserDetailsService.class
-user\repository\UserRepository.class
 user\security\SecurityConfig.class
 user\controller\UserController.class
+user\security\SecurityUser.class
+user\repository\UserRepository.class
 user\service\UserService.class
 user\model\Users$UsersBuilder.class

@@ -21,7 +21,7 @@ services:
       environment:
          PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
          PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-         PGADMIN_CONFIG_SERVER_MODE: False
+         PGADMIN_CONFIG_SERVER_MODE: "False"
       volumes:
       - pgadmin:/var/lib/pgadmin
       ports:
@@ -35,10 +35,9 @@ services:
       ports:
       - 5672:5672
       - 15672:15672
+      networks:
+      - spring
 
-   keycloak:
-      command:
-      - start-dev
    eureka-server:
       image: asc108/eureka-server:latest
       container_name: eureka-server
@@ -72,7 +71,7 @@ services:
       depends_on:
       - eureka-server
       - postgres
-      - rabbitmq
+      - rabbit
    order:
       image:  asc108/order:latest
       container_name: order
@@ -86,7 +85,6 @@ services:
       depends_on:
       - eureka-server
       - postgres
-      - rabbitmq
    product:
       image: asc108/product:latest
       container_name: product
@@ -114,7 +112,7 @@ services:
       depends_on:
       - eureka-server
       - postgres
-      - rabbitmq
+      - rabbit
 networks:
    postgres:
       driver: bridge
